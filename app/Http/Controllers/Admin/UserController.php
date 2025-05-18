@@ -43,7 +43,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $this->userRepositoryInterface->storeUser($request);
         return redirect(route('users.index'))->with('message','User Successfully Added');
     }

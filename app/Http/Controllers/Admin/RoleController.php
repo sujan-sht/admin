@@ -34,9 +34,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/Role/Form', [
-            'mode' => 'Create'
-        ]);
+        return Inertia::render('admin/Role/Form');
     }
 
     /**
@@ -45,7 +43,7 @@ class RoleController extends Controller
     public function store(RoleRequest $request)
     {
         $this->roleRepositoryInterface->storeRole($request);
-        return to_route('roles.index')->with('message','Successfully Added');
+        return to_route('roles.index')->with('message','Role Successfully Added');
     }
 
     /**
@@ -59,17 +57,20 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $role)
     {
-        //
+        return Inertia::render('admin/Role/Form', [
+            'role' => $this->roleRepositoryInterface->editRole($role)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoleRequest $request, Role $role)
     {
-        //
+        $this->roleRepositoryInterface->updateRole($request, $role);
+        return to_route('roles.index')->with('info','Role Updated Successfully');
     }
 
     /**

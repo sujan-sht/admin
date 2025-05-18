@@ -22,8 +22,8 @@ const showTemplate = () => {
 };
 
 const onDelete = async (data) => {
-    const message = form.delete(route('roles.destroy', data));
-    console.log(message);
+    form.delete(route('roles.destroy', data));
+    toast.add({ severity: 'error', summary: 'Role Deleted Successfully', life: 3000 });
     toast.removeGroup('bc');
     visible.value = false;
 }
@@ -51,11 +51,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Roles" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+        <Toast />
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <Link :href="route('roles.create')" class="flex justify-end">
                 <Button label="Create Role" severity="info"  raised/>
             </Link>
-            <DataTable :value="roles" paginator showGridlines :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]"
+            <DataTable :value="roles" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column field="name" header="Name"></Column>
                 <Column field="description" header="Description"></Column>
