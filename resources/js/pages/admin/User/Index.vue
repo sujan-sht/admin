@@ -25,6 +25,7 @@ const showTemplate = () => {
 const onDelete = async (data) => {
     form.delete(route('users.destroy', data))
     toast.removeGroup('bc');
+    toast.add({ severity: 'error', summary: 'Role Deleted Successfully', life: 3000 });
     visible.value = false;
 }
 
@@ -50,13 +51,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 <template>
 
     <Head title="Users" />
+        <Toast />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <Link :href="route('users.create')" class="flex justify-end">
                 <Button label="Create User" severity="info"  raised/>
             </Link>
-            <DataTable :value="users" paginator showGridlines :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]"
+            <DataTable :value="users" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column field="name" header="Name"></Column>
                 <Column field="email" header="Email"></Column>
@@ -89,8 +91,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </Toast>
                                 <Trash2 @click="showTemplate" style="cursor:pointer" class="text-red-500"/>
                             </div>
-                            <!-- <Trash2 @click="deleteData(data)"/> -->
-                            <!-- <DangerButton @click="deleteData(data)">Delete</DangerButton> -->
                         </div>
                     </template>
                 </Column>

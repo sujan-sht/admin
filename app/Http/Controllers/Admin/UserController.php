@@ -32,19 +32,18 @@ class UserController extends Controller
     public function create()
     {
         return Inertia::render('admin/User/Form', [
-            'roles' => $this->userRepositoryInterface->createUser(),
-            'mode' => 'Create'
+            'roles' => $this->userRepositoryInterface->createUser()
         ]);
-
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
+        // dd($request->all());
         $this->userRepositoryInterface->storeUser($request);
-        return redirect(route('users.index'))->with('message','User Successfully Added');
+        return redirect(route('users.index'))->with('message', 'User Successfully Added');
     }
 
     /**
@@ -60,12 +59,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $user->load('roles');
         return Inertia::render('admin/User/Form', [
-            'user' => $this->userRepositoryInterface->editUser($user),
-            'mode' => 'Edit'
+            'roles' => $this->userRepositoryInterface->editUser($user),
+            'user' => $user
         ]);
-
-
     }
 
     /**
@@ -74,7 +72,7 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $this->userRepositoryInterface->updateUser($request, $user);
-        return redirect(route('users.index'))->with('info','Updated Successfully');
+        return redirect(route('users.index'))->with('info', 'Updated Successfully');
     }
 
     /**
@@ -83,6 +81,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $this->userRepositoryInterface->destroyUser($user);
-        return redirect(route('users.index'))->with('error','Deleted Successfully');
+        return redirect(route('users.index'))->with('error', 'Deleted Successfully');
     }
 }

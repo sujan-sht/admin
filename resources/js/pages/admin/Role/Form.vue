@@ -43,54 +43,42 @@ const resolver = ({ values }) => {
 
 const onFormSubmit = ({ valid, values }) => {
     if (valid) {
-        if (!isRoleEmpty) {
-            router.put(route('roles.update',props.role.role), values, {
-                onSuccess: () => {
-                    toast.add({
-                        severity: 'success',
-                        summary: 'Role updated successfully!',
-                        life: 3000
-                    });
-                },
-                onError: (errors) => {
-                    // Optionally show an error toast or handle validation errors
-                    toast.add({
-                        severity: 'error',
-                        summary: 'Validation failed',
-                        detail: 'Please check the form fields.',
-                        life: 3000
-                    });
-                }
-            });
-        } else {
-            router.post(route('roles.store'), values, {
-                onSuccess: () => {
-                    toast.add({
-                        severity: 'success',
-                        summary: 'Role created successfully!',
-                        life: 3000
-                    });
-                },
-                onError: (errors) => {
-                    // Optionally show an error toast or handle validation errors
-                    toast.add({
-                        severity: 'error',
-                        summary: 'Validation failed',
-                        detail: 'Please check the form fields.',
-                        life: 3000
-                    });
-                }
-            });
-        }
+
+        const callbacks = {
+            onSuccess: () => {
+                toast.add({
+                    severity: 'success',
+                    summary: `User ${isRoleEmpty ? 'created' : 'updated'} successfully!`,
+                    life: 3000
+                });
+            },
+            onError: () => {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Validation failed',
+                    detail: 'Please check the form fields.',
+                    life: 3000
+                });
+            }
+        };
+        const request = !isRoleEmpty
+            ? router.put(route('roles.update', props.role.role), values, callbacks)
+            : router.post(route('roles.store'), values, callbacks);
+
+        return request;
+
+
 
     }
 };
+const activePageLabel = !isRoleEmpty ? 'Edit' : 'Create';
+const url = !isRoleEmpty ? route('roles.edit', props.role.role) : route('roles.create');
 
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
     { title: 'Roles', href: route('roles.index') },
-    { title: 'Create', href: route('roles.create') },
+    { title: activePageLabel, href: url },
 
 ];
 </script>
@@ -119,7 +107,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <Message v-if="$form.description?.invalid" severity="error" size="small" variant="simple">{{
                             $form.description.error?.message }}</Message>
                     </div>
-                    <Button type="submit" severity="secondary" label="Submit" />
+                    <Button type="submit" severity="secondary" :label="activePageLabel" />
                 </Form>
             </div>
 

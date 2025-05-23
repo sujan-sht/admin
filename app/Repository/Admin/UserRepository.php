@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
     // User Create
     public function createUser()
     {
-        $roles = Role::select('id','name')->get()->toArray();
+        $roles = Role::select('id','name')->get();
         return compact('roles');
     }
 
@@ -51,9 +51,8 @@ class UserRepository implements UserRepositoryInterface
     // User Edit
     public function editUser(User $user)
     {
-        $roles = Role::select('id','name')->get()->toArray();
-        $user->load('roles');
-        return compact('user','roles');
+        $roles = Role::select('id','name')->get();
+        return compact('roles');
     }
 
     // User Update
