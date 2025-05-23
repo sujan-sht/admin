@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Contracts\Admin\PermissionRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Repository\Admin\RoleRepository;
 use App\Repository\Admin\UserRepository;
 use App\Contracts\Admin\RoleRepositoryInterface;
 use App\Contracts\Admin\UserRepositoryInterface;
+use App\Repository\Admin\PermissionRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function repos()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
-        // $this->app->bind(MenuRepositoryInterface::class, MenuRepository::class);
+        $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
     }
 }
