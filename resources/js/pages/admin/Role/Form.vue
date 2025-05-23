@@ -97,17 +97,19 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit"
                     class="flex flex-col gap-4 w-full sm:w-56">
                     <div class="flex flex-col gap-1">
+                        <label for="name" class="font-medium">Name</label>
                         <InputText name="name" type="text" placeholder="Enter Role Name" fluid />
                         <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">{{
                             $form.name.error?.message }}</Message>
                     </div>
                     <div class="flex flex-col gap-1">
+                        <label for="description" class="font-medium">Description</label>
                         <Textarea name="description" rows="5" cols="30" placeholder="Enter Description"
                             style="resize: none" />
                         <Message v-if="$form.description?.invalid" severity="error" size="small" variant="simple">{{
                             $form.description.error?.message }}</Message>
                     </div>
-                    <Button type="submit" severity="secondary" :label="activePageLabel" />
+                    <Button type="submit" severity="success" :label="activePageLabel" />
                 </Form>
             </div>
 

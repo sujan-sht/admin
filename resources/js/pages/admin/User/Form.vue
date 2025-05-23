@@ -115,36 +115,59 @@ const breadcrumbs: BreadcrumbItem[] = [
 
             <div class="flex justify-center">
                 <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit"
-                    class="flex flex-col gap-4 w-full md:w-80">
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-[800px]">
                     <div class="flex flex-col gap-1">
-                        <InputText name="name" type="text" placeholder="Enter User Name" fluid />
-                        <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.name.error?.message }}</Message>
+                        <label for="name" class="font-medium">User Name</label>
+                        <InputText id="name" name="name" type="text" placeholder="Enter User Name" fluid />
+                        <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">
+                            {{ $form.name.error?.message }}
+                        </Message>
                     </div>
+
                     <div class="flex flex-col gap-1">
-                        <InputText name="email" type="email" placeholder="Enter Email Address" fluid />
-                        <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.email.error?.message }}</Message>
+                        <label for="email" class="font-medium">Email Address</label>
+                        <InputText id="email" name="email" type="email" placeholder="Enter Email Address" fluid />
+                        <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">
+                            {{ $form.email.error?.message }}
+                        </Message>
                     </div>
+
                     <div class="flex flex-col gap-1">
-                        <Password name="password" promptLabel="Choose a password" weakLabel="Too simple" mediumLabel="Average complexity" strongLabel="Complex password" class="w-full md:w-80"/>
-                        <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.password.error?.message }}</Message>
+                        <label for="password" class="font-medium">Password</label>
+                        <Password id="password" name="password" promptLabel="Choose a password" weakLabel="Too simple"
+                            mediumLabel="Average complexity" strongLabel="Complex password" class="w-full"
+                            inputClass="w-full" />
+                        <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
+                            {{ $form.password.error?.message }}
+                        </Message>
                     </div>
+
                     <div class="flex flex-col gap-1">
-                        <Password name="confirm_password" promptLabel="Choose a password" weakLabel="Too simple" mediumLabel="Average complexity" strongLabel="Complex password" class="w-full md:w-80"/>
-                        <Message v-if="$form.confirm_password?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.confirm_password.error?.message }}</Message>
+                        <label for="confirm_password" class="font-medium">Confirm Password</label>
+                        <Password id="confirm_password" name="confirm_password" promptLabel="Choose a password"
+                            weakLabel="Too simple" mediumLabel="Average complexity" strongLabel="Complex password"
+                            class="w-full" inputClass="w-full" />
+                        <Message v-if="$form.confirm_password?.invalid" severity="error" size="small" variant="simple">
+                            {{ $form.confirm_password.error?.message }}
+                        </Message>
                     </div>
-                    <div class="flex flex-col gap-1">
-                        <MultiSelect name="role"  :options="props.roles.roles" optionLabel="name" filter placeholder="Select Role"
-            :maxSelectedLabels="3" class="w-full md:w-80" />
-                        <Message v-if="$form.role?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.role.error?.message }}</Message>
+
+                    <div class="flex flex-col gap-1 ">
+                        <label for="role" class="font-medium">Role</label>
+                        <MultiSelect id="role" name="role" :options="props.roles.roles" optionLabel="name" filter
+                            placeholder="Select Role" :maxSelectedLabels="3" class="w-full" />
+                        <Message v-if="$form.role?.invalid" severity="error" size="small" variant="simple">
+                            {{ $form.role.error?.message }}
+                        </Message>
                     </div>
-                    <Button type="submit" severity="secondary" :label="activePageLabel" />
+
+                    <div class="md:col-span-2 flex justify-center">
+                        <Button type="submit" severity="success" :label="activePageLabel" />
+                    </div>
+
                 </Form>
             </div>
+
 
         </div>
     </AppLayout>
