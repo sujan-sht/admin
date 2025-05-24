@@ -5,7 +5,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { Link } from '@inertiajs/vue3';
 import Button from 'primevue/button';
-import { SquarePen, Trash2 } from 'lucide-vue-next';
+import { SquarePen, Trash2, Eye } from 'lucide-vue-next';
 import { type BreadcrumbItem } from '@/types';
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
@@ -63,7 +63,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Column header="Action">
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">
-
+                            <Link :href="route('roles.show', data)" class="text-orange-500">
+                                <Eye />
+                            </Link>
                             <Link :href="route('roles.edit', data)" class="text-green-500">
                             <SquarePen />
                             </Link>

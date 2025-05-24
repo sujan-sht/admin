@@ -49,9 +49,9 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Role $role)
     {
-        //
+        return Inertia::render('admin/Role/View', $this->roleRepositoryInterface->showRole($role));
     }
 
     /**

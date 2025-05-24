@@ -32,8 +32,8 @@ const onClose = () => {
     visible.value = false;
 }
 
-const { roles } = defineProps({
-    roles: {
+const { permissions } = defineProps({
+    permissions: {
         type: Array,
         default: []
     }
@@ -43,23 +43,31 @@ const { roles } = defineProps({
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
-    { title: 'Roles', href: route('roles.index') },
+    { title: 'Permission', href: route('permissions.index') },
 ];
 </script>
 
 <template>
-    <Head title="Roles" />
+    <Head title="Permission" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toast />
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('roles.create')" class="flex justify-end">
-                <Button label="Create Role" severity="info"  raised/>
+            <Link :href="route('permissions.create')" class="flex justify-end">
+                <Button label="Create Permission" severity="info"  raised/>
             </Link>
-            <DataTable :value="roles" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+            <DataTable :value="permissions" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
+                <Column field="browse" header="Browse"></Column>
+                <Column field="read" header="Read"></Column>
+                <Column field="edit" header="Edit"></Column>
+                <Column field="add" header="Add"></Column>
+                <Column field="delete" header="Delete"></Column>
+                <Column field="role" header="Role"></Column>
                 <Column field="name" header="Name"></Column>
-                <Column field="description" header="Description"></Column>
+                <Column field="model" header="Model"></Column>
+                <Column field="can" header="Can/Cannot"></Column>
+
                 <Column header="Action">
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">

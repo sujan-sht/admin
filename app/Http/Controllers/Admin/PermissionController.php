@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Inertia\Inertia;
 use App\Models\Admin\Permission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PermissionRequest;
@@ -22,7 +23,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return view('admin-master::admin.permission.index',$this->permissionRepositoryInterface->indexPermission());
+        return Inertia::render('admin/Permission/Index', $this->permissionRepositoryInterface->indexPermission());
     }
 
     /**
@@ -30,7 +31,9 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin-master::admin.permission.create',$this->permissionRepositoryInterface->createPermission());
+        return Inertia::render('admin/Permission/Form', [
+            'roles' => $this->permissionRepositoryInterface->createPermission()
+        ]);
     }
 
     /**
@@ -39,7 +42,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request)
     {
         $this->permissionRepositoryInterface->storePermission($request);
-        return redirect(adminRedirectRoute('permissions'))->with('message','Successfully Added');
+        return to_route('permissions.index')->with('message','Successfully Added');
     }
 
     /**
