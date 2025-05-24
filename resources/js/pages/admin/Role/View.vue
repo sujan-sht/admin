@@ -9,11 +9,12 @@ import { reactive } from 'vue';
 import Button from 'primevue/button';
 import { Trash2 } from 'lucide-vue-next';
 import { type BreadcrumbItem } from '@/types';
-import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
 import Select from 'primevue/select';
 import Message from 'primevue/message';
-
+import ConfirmPopup from 'primevue/confirmpopup';
+import { useConfirm } from "primevue/useconfirm";
+import { useToast } from "primevue/usetoast";
 import Dialog from 'primevue/dialog';
 import { ref } from 'vue';
 import { Form } from '@primevue/forms';
@@ -22,7 +23,7 @@ import { Form } from '@primevue/forms';
 
 const toast = useToast();
 const visible = ref(false);
-
+const confirm = useConfirm();
 // const showTemplate = () => {
 //     if (!visible.value) {
 //         toast.add({ severity: 'error', summary: 'Are You Sure Want To Delete?', group: 'bc' });
@@ -40,9 +41,23 @@ const visible = ref(false);
 // const onClose = () => {
 //     visible.value = false;
 // }
+
+
+const props = defineProps({
+    role: {
+        type: Array,
+        default: () => ({})
+    },
+    modules: {
+        type: Array,
+        default: () => ({})
+    }
+});
 const initialValues = reactive({
     model: '',
+    role_id: props.role.id ?? null,
 });
+
 
 const resolver = ({ values }) => {
     const errors = {};
@@ -56,8 +71,12 @@ const resolver = ({ values }) => {
     };
 };
 const onFormSubmit = ({ valid, values }) => {
-    console.log(values);
     if (valid) {
+        const payload = {
+            ...values,
+            role_id: props.role.id
+        };
+
         const callbacks = {
             onSuccess: () => {
                 toast.add({
@@ -75,21 +94,34 @@ const onFormSubmit = ({ valid, values }) => {
                 });
             }
         };
-        const request = router.post(route('permissions.store'), values, callbacks);
 
-        return request;
+        return router.post(route('permissions.makeModulePermission'), payload, callbacks);
     }
 };
-const props = defineProps({
-    role: {
-        type: Array,
-        default: () => ({})
-    },
-    modules: {
-        type: Array,
-        default: () => ({})
-    }
-});
+const onDelete = (event) => {
+    console.log(event);
+    confirm.require({
+        target: event.currentTarget,
+        message: 'Do you want to delete this record?',
+        icon: 'pi pi-info-circle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Delete',
+            severity: 'danger'
+        },
+        accept: () => {
+            toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        }
+    });
+};
+
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
     { title: 'Permission', href: route('permissions.index') },
@@ -172,7 +204,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">
                             <div class="card flex justify-center">
-                                <Toast position="top-center" group="bc" @close="onClose">
+                                <ConfirmPopup></ConfirmPopup>
+                                <div class="card flex flex-wrap gap-2 justify-center">
+                                    <Button @click="onDelete(data)" label="Delete" severity="danger" outlined></Button>
+                                </div>
+                                <!-- <Toast position="top-center" group="bc" @close="onClose">
                                     <template #message="slotProps">
                                         <div class="flex flex-col items-center flex-auto">
 
@@ -182,8 +218,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                 @click="onDelete(data)"></Button>
                                         </div>
                                     </template>
-                                </Toast>
-                                <Trash2 @click="showTemplate" style="cursor:pointer" class="text-red-500" />
+        </Toast>
+        <Trash2 @click="showTemplate" style="cursor:pointer" class="text-red-500" /> -->
                             </div>
                         </div>
                     </template>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use App\Models\Admin\Permission;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\Admin\PermissionRequest;
 use App\Contracts\Admin\PermissionRepositoryInterface;
 
@@ -78,5 +79,20 @@ class PermissionController extends Controller
     {
         $this->permissionRepositoryInterface->destroyPermission($permission);
         return redirect(adminRedirectRoute('permissions'))->with('error','Deleted Successfully');
+    }
+
+    public function makeModulePermission(PermissionRequest $request)
+    {
+        Permission::create([
+            'browse' => 1,
+            'read' => 1,
+            'edit' => 1,
+            'add' => 1,
+            'delete' => 1,
+            'role_id' => $request->role_id,
+            'model' => $request->model,
+        ]);
+       return back();
+
     }
 }

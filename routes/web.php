@@ -17,7 +17,11 @@ Route::get('dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::post('permissions/makeModulePermission', [PermissionController::class, 'makeModulePermission'])
+    ->name('permissions.makeModulePermission');
     Route::resource('permissions', PermissionController::class);
+
+
 });
 
 
