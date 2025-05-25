@@ -78,7 +78,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         $this->permissionRepositoryInterface->destroyPermission($permission);
-        return redirect(adminRedirectRoute('permissions'))->with('error','Deleted Successfully');
+        return back()->with('error','Deleted Successfully');
     }
 
     public function makeModulePermission(PermissionRequest $request)

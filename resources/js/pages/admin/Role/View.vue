@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import { Link } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 
 import Button from 'primevue/button';
-import { Trash2 } from 'lucide-vue-next';
 import { type BreadcrumbItem } from '@/types';
 import Toast from 'primevue/toast';
 import Select from 'primevue/select';
 import Message from 'primevue/message';
-import ConfirmPopup from 'primevue/confirmpopup';
 import { useConfirm } from "primevue/useconfirm";
-import { useToast } from "primevue/usetoast";
+import ConfirmPopup from 'primevue/confirmpopup';
 import Dialog from 'primevue/dialog';
+import { useToast } from "primevue/usetoast";
 import { ref } from 'vue';
 import { Form } from '@primevue/forms';
 
@@ -24,33 +22,18 @@ import { Form } from '@primevue/forms';
 const toast = useToast();
 const visible = ref(false);
 const confirm = useConfirm();
-// const showTemplate = () => {
-//     if (!visible.value) {
-//         toast.add({ severity: 'error', summary: 'Are You Sure Want To Delete?', group: 'bc' });
-//         visible.value = true;
-//     }
-// };
+const form = useForm({});
 
-// const onDelete = async (data) => {
-//     form.delete(route('roles.destroy', data));
-//     toast.add({ severity: 'error', summary: 'Role Deleted Successfully', life: 3000 });
-//     toast.removeGroup('bc');
-//     visible.value = false;
-// }
-
-// const onClose = () => {
-//     visible.value = false;
-// }
 
 
 const props = defineProps({
     role: {
         type: Array,
-        default: () => ({})
+        default: () => []
     },
     modules: {
         type: Array,
-        default: () => ({})
+        default: () => []
     }
 });
 const initialValues = reactive({
@@ -98,8 +81,7 @@ const onFormSubmit = ({ valid, values }) => {
         return router.post(route('permissions.makeModulePermission'), payload, callbacks);
     }
 };
-const onDelete = (event) => {
-    console.log(event);
+const onDelete = (event,data) => {
     confirm.require({
         target: event.currentTarget,
         message: 'Do you want to delete this record?',
@@ -114,13 +96,15 @@ const onDelete = (event) => {
             severity: 'danger'
         },
         accept: () => {
-            toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
+            form.delete(route('permissions.destroy', data));
+            toast.add({ severity: 'error', summary: 'Delete', detail: 'Module Permission deleted successfully', life: 3000 });
         },
         reject: () => {
-            toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+
         }
     });
 };
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
@@ -134,6 +118,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toast />
+        <ConfirmPopup></ConfirmPopup>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="card flex justify-between ">
                 <h3 class=" inline-block align-middle">All Permissions for {{ props.role.name ?? '' }}</h3>
@@ -149,30 +134,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     class="w-full md:w-56" />
                                 <Message v-if="$form.model?.invalid" severity="error" size="small" variant="simple">{{
                                     $form.model.error?.message }}</Message>
-                                <!-- <Select name="model" :options="props.modules" filter optionLabel="name"
-                                    placeholder="Select a Country" class="w-full md:w-56">
-                                    <template #value="slotProps">
-                                        <div v-if="slotProps.value" class="flex items-center">
-                                            <img :alt="slotProps.value.label"
-                                                src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
-                                                :class="`mr-2 flag flag-${slotProps.value.code.toLowerCase()}`"
-                                                style="width: 18px" />
-                                            <div>{{ slotProps.value.name }}</div>
-                                        </div>
-                                        <span v-else>
-                                            {{ slotProps.placeholder }}
-                                        </span>
-                                    </template>
-<template #option="slotProps">
-                                        <div class="flex items-center">
-                                            <img :alt="slotProps.option.label"
-                                                src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
-                                                :class="`mr-2 flag flag-${slotProps.option.code.toLowerCase()}`"
-                                                style="width: 18px" />
-                                            <div>{{ slotProps.option.name }}</div>
-                                        </div>
-                                    </template>
-</Select> -->
+
                                 <div class="flex justify-end gap-2">
                                     <Button type="button" label="Cancel" severity="secondary"
                                         @click="visible = false"></Button>
@@ -204,22 +166,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">
                             <div class="card flex justify-center">
-                                <ConfirmPopup></ConfirmPopup>
-                                <div class="card flex flex-wrap gap-2 justify-center">
-                                    <Button @click="onDelete(data)" label="Delete" severity="danger" outlined></Button>
-                                </div>
-                                <!-- <Toast position="top-center" group="bc" @close="onClose">
-                                    <template #message="slotProps">
-                                        <div class="flex flex-col items-center flex-auto">
 
-                                            <div class="font-medium text-lg my-4 text-white">{{
-                                                slotProps.message.summary }}</div>
-                                            <Button size="small" label="Yes" severity="error"
-                                                @click="onDelete(data)"></Button>
-                                        </div>
-                                    </template>
-        </Toast>
-        <Trash2 @click="showTemplate" style="cursor:pointer" class="text-red-500" /> -->
+                                <div class="card flex flex-wrap gap-2 justify-center">
+                                    <!-- <Button @click="onDelete(data)" label="Delete" severity="danger" outlined></Button> -->
+                                    <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined></Button>
+
+                                </div>
                             </div>
                         </div>
                     </template>
