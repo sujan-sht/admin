@@ -17,8 +17,9 @@ Route::get('dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::post('permissions/makeModulePermission', [PermissionController::class, 'makeModulePermission'])
-    ->name('permissions.makeModulePermission');
+    Route::post('permissions/makeModulePermission', [PermissionController::class, 'makeModulePermission'])->name('permissions.makeModulePermission');
+    Route::put('permissions/updateModulePermission/{permission}', [PermissionController::class, 'updateModulePermission'])->name('permissions.updateModulePermission');
+
     Route::resource('permissions', PermissionController::class);
 
 

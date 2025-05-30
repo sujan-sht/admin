@@ -3,8 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import { reactive,computed } from 'vue';
-
+import { reactive } from 'vue';
 import Button from 'primevue/button';
 import { type BreadcrumbItem } from '@/types';
 import Toast from 'primevue/toast';
@@ -82,7 +81,7 @@ const onFormSubmit = ({ valid, values }) => {
         return router.post(route('permissions.makeModulePermission'), payload, callbacks);
     }
 };
-const onDelete = (event,data) => {
+const onDelete = (event, data) => {
     confirm.require({
         target: event.currentTarget,
         message: 'Do you want to delete this record?',
@@ -104,6 +103,30 @@ const onDelete = (event,data) => {
 
         }
     });
+};
+const updatePermission = (permissionId: number, key: string, value: boolean) => {
+    router.put(
+        route('permissions.updateModulePermission', permissionId),
+        { [key]: value },
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.add({
+                    severity: 'success',
+                    summary: 'Permission Updated',
+                    life: 2000
+                });
+            },
+            onError: () => {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Update Failed',
+                    detail: 'Could not update the permission.',
+                    life: 3000
+                });
+            }
+        }
+    );
 };
 
 
@@ -131,8 +154,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <div class="card flex justify-center">
                             <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues"
                                 @submit="onFormSubmit" class="flex flex-col gap-4 w-full md:w-56">
-                                <Select name="model" :options="props.modules"  option-label="label" option-value="value" filter placeholder="Select a Module"
-                                    class="w-full md:w-56" />
+                                <Select name="model" :options="props.modules" option-label="label" option-value="value"
+                                    filter placeholder="Select a Module" class="w-full md:w-56" />
                                 <Message v-if="$form.model?.invalid" severity="error" size="small" variant="simple">{{
                                     $form.model.error?.message }}</Message>
 
@@ -156,11 +179,41 @@ const breadcrumbs: BreadcrumbItem[] = [
                         {{ slotProps.data.name ?? 'N/A' }}
                     </template>
                 </Column>
-                <Column field="browse" header="Browse"></Column>
-                <Column field="read" header="Read"></Column>
-                <Column field="edit" header="Edit"></Column>
-                <Column field="add" header="Add"></Column>
-                <Column field="delete" header="Delete"></Column>
+                <Column field="browse" header="Browse">
+                    <template #body="{ data }">
+                        <input type="checkbox" :checked="data.browse"
+                            @change="updatePermission(data.id, 'browse', $event.target.checked)" />
+                    </template>
+                </Column>
+
+                <Column field="read" header="Read">
+                    <template #body="{ data }">
+                        <input type="checkbox" :checked="data.read"
+                            @change="updatePermission(data.id, 'read', $event.target.checked)" />
+                    </template>
+                </Column>
+
+                <Column field="edit" header="Edit">
+                    <template #body="{ data }">
+                        <input type="checkbox" :checked="data.edit"
+                            @change="updatePermission(data.id, 'edit', $event.target.checked)" />
+                    </template>
+                </Column>
+
+                <Column field="add" header="Add">
+                    <template #body="{ data }">
+                        <input type="checkbox" :checked="data.add"
+                            @change="updatePermission(data.id, 'add', $event.target.checked)" />
+                    </template>
+                </Column>
+
+                <Column field="delete" header="Delete">
+                    <template #body="{ data }">
+                        <input type="checkbox" :checked="data.delete"
+                            @change="updatePermission(data.id, 'delete', $event.target.checked)" />
+                    </template>
+                </Column>
+
 
 
                 <Column header="Action">
@@ -169,7 +222,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <div class="card flex justify-center">
 
                                 <div class="card flex flex-wrap gap-2 justify-center">
-                                    <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined>
+                                    <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger"
+                                        outlined>
                                         <Trash2 />
                                     </Button>
 

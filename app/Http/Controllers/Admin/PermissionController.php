@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Models\Admin\Permission;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
 use App\Http\Requests\Admin\PermissionRequest;
 use App\Contracts\Admin\PermissionRepositoryInterface;
 
@@ -16,8 +16,7 @@ class PermissionController extends Controller
     public function __construct(PermissionRepositoryInterface $permissionRepositoryInterface)
     {
         $this->permissionRepositoryInterface = $permissionRepositoryInterface;
-        $this->authorizeResource(Permission::class,'permission');
-
+        $this->authorizeResource(Permission::class, 'permission');
     }
     /**
      * Display a listing of the resource.
@@ -43,7 +42,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request)
     {
         $this->permissionRepositoryInterface->storePermission($request);
-        return to_route('permissions.index')->with('message','Successfully Added');
+        return to_route('permissions.index')->with('message', 'Successfully Added');
     }
 
     /**
@@ -51,7 +50,7 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        return view('admin-master::admin.permission.show',$this->permissionRepositoryInterface->showPermission($permission));
+        return view('admin-master::admin.permission.show', $this->permissionRepositoryInterface->showPermission($permission));
     }
 
     /**
@@ -59,7 +58,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        return view('admin-master::admin.permission.edit',$this->permissionRepositoryInterface->editPermission($permission));
+        return view('admin-master::admin.permission.edit', $this->permissionRepositoryInterface->editPermission($permission));
     }
 
     /**
@@ -69,7 +68,7 @@ class PermissionController extends Controller
     {
 
         $this->permissionRepositoryInterface->updatePermission($request, $permission);
-        return redirect(adminRedirectRoute('permissions'))->with('info','Updated Successfully');
+        return redirect(adminRedirectRoute('permissions'))->with('info', 'Updated Successfully');
     }
 
     /**
@@ -78,7 +77,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         $this->permissionRepositoryInterface->destroyPermission($permission);
-        return back()->with('error','Deleted Successfully');
+        return back()->with('error', 'Deleted Successfully');
     }
 
     public function makeModulePermission(PermissionRequest $request)
@@ -92,7 +91,19 @@ class PermissionController extends Controller
             'role_id' => $request->role_id,
             'model' => $request->model,
         ]);
-       return back();
+        return back();
+    }
 
+    public function updateModulePermission(Request $request, Permission $permission)
+    {
+        $request->validate([
+            'browse' => 'boolean',
+            'read' => 'boolean',
+            'edit' => 'boolean',
+            'add' => 'boolean',
+            'delete' => 'boolean',
+        ]);
+        $permission->update($request->only(['browse', 'read', 'edit', 'add', 'delete']));
+        return back();
     }
 }
