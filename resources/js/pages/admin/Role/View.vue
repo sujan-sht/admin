@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import { reactive } from 'vue';
+import { reactive,computed } from 'vue';
 
 import Button from 'primevue/button';
 import { type BreadcrumbItem } from '@/types';
@@ -16,6 +16,7 @@ import Dialog from 'primevue/dialog';
 import { useToast } from "primevue/usetoast";
 import { ref } from 'vue';
 import { Form } from '@primevue/forms';
+import { Trash2 } from 'lucide-vue-next';
 
 
 
@@ -28,12 +29,12 @@ const form = useForm({});
 
 const props = defineProps({
     role: {
-        type: Array,
-        default: () => []
+        type: Object,
+        default: () => ({})
     },
     modules: {
-        type: Array,
-        default: () => []
+        type: Object,
+        default: () => ({})
     }
 });
 const initialValues = reactive({
@@ -130,7 +131,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <div class="card flex justify-center">
                             <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues"
                                 @submit="onFormSubmit" class="flex flex-col gap-4 w-full md:w-56">
-                                <Select name="model" :options="modules" filter placeholder="Select a Module"
+                                <Select name="model" :options="props.modules"  option-label="label" option-value="value" filter placeholder="Select a Module"
                                     class="w-full md:w-56" />
                                 <Message v-if="$form.model?.invalid" severity="error" size="small" variant="simple">{{
                                     $form.model.error?.message }}</Message>
@@ -168,8 +169,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <div class="card flex justify-center">
 
                                 <div class="card flex flex-wrap gap-2 justify-center">
-                                    <!-- <Button @click="onDelete(data)" label="Delete" severity="danger" outlined></Button> -->
-                                    <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined></Button>
+                                    <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined>
+                                        <Trash2 />
+                                    </Button>
 
                                 </div>
                             </div>

@@ -39,7 +39,14 @@ class RoleRepository implements RoleRepositoryInterface
         // $remaining_modules = array_diff(array_merge($system_modules, $modules), $role_models ?? []);
         $remaining_modules = array_diff($modules, $role_models ?? []);
         // dd($remaining_modules);
-        return ['role' => $role,'modules'=>$remaining_modules];
+        // Transform to array of label/value objects
+        $moduleOptions = collect($remaining_modules)->values()->map(function ($item) {
+            return [
+                'label' => $item,
+                'value' => $item
+            ];
+        });
+        return ['role' => $role, 'modules' => $moduleOptions];
     }
 
     // Role Edit
