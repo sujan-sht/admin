@@ -8,29 +8,39 @@ import Button from 'primevue/button';
 import { SquarePen, Trash2, Eye } from 'lucide-vue-next';
 import { type BreadcrumbItem } from '@/types';
 import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
+import ConfirmPopup from 'primevue/confirmpopup';
 import Toast from 'primevue/toast';
 import { ref } from 'vue';
 const toast = useToast();
 const visible = ref(false);
+const confirm = useConfirm();
 const form = useForm({});
 
-const showTemplate = () => {
-    if (!visible.value) {
-        toast.add({ severity: 'error', summary: 'Are You Sure Want To Delete?', group: 'bc' });
-        visible.value = true;
-    }
+const onDelete = (event, data) => {
+    confirm.require({
+        target: event.currentTarget,
+        message: 'Do you want to delete this record?',
+        icon: 'pi pi-info-circle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Delete',
+            severity: 'danger'
+        },
+        accept: () => {
+            form.delete(route('roles.destroy', data));
+            toast.add({ severity: 'error', summary: 'Delete', detail: 'Role deleted successfully', life: 3000 });
+        },
+        reject: () => {
+
+        }
+    });
 };
 
-const onDelete = async (data) => {
-    form.delete(route('roles.destroy', data));
-    toast.add({ severity: 'error', summary: 'Role Deleted Successfully', life: 3000 });
-    toast.removeGroup('bc');
-    visible.value = false;
-}
-
-const onClose = () => {
-    visible.value = false;
-}
 
 const { roles } = defineProps({
     roles: {
@@ -48,41 +58,36 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
+
     <Head title="Roles" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toast />
+        <ConfirmPopup></ConfirmPopup>
+
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <Link :href="route('roles.create')" class="flex justify-end">
-                <Button label="Create Role" severity="info"  raised/>
+            <Button label="Create Role" severity="info" raised />
             </Link>
             <DataTable :value="roles" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column field="name" header="Name"></Column>
                 <Column field="description" header="Description"></Column>
                 <Column header="Action">
+
+
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">
-                            <Link :href="route('roles.show', data)" class="text-orange-500">
-                                <Eye />
+                            <Link :href="route('roles.show', data)" class="text-orange-500 border-solid">
+                            <Eye />
                             </Link>
-                            <Link :href="route('roles.edit', data)" class="text-green-500">
+                            <Link :href="route('roles.edit', data)" class="text-green-500 border-solid">
                             <SquarePen />
                             </Link>
-                            <div class="card flex justify-center">
-                                <Toast position="top-center" group="bc" @close="onClose">
-                                    <template #message="slotProps">
-                                        <div class="flex flex-col items-center flex-auto">
+                            <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined :style="{border : 'none', padding : 0}">
+                                <Trash2 />
+                            </Button>
 
-                                            <div class="font-medium text-lg my-4 text-white">{{
-                                                slotProps.message.summary }}</div>
-                                            <Button size="small" label="Yes" severity="error"
-                                                @click="onDelete(data)"></Button>
-                                        </div>
-                                    </template>
-                                </Toast>
-                                <Trash2 @click="showTemplate" style="cursor:pointer" class="text-red-500"/>
-                            </div>
                         </div>
                     </template>
                 </Column>

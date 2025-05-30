@@ -223,7 +223,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                                 <div class="card flex flex-wrap gap-2 justify-center">
                                     <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger"
-                                        outlined>
+                                        outlined :style="{border : 'none', padding : 0}">
                                         <Trash2 />
                                     </Button>
 
