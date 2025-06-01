@@ -63,8 +63,16 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Column field="edit" header="Edit"></Column>
                 <Column field="add" header="Add"></Column>
                 <Column field="delete" header="Delete"></Column>
-                <Column field="role" header="Role"></Column>
-                <Column field="name" header="Name"></Column>
+                <Column field="role" header="Role">
+                    <template #body="slotProps">
+                        {{ slotProps.data }}
+                    </template>
+                </Column>
+                 <Column field="name" header="Name">
+                    <template #body="slotProps">
+                        {{ slotProps.data.name ?? 'N/A' }}
+                    </template>
+                </Column>
                 <Column field="model" header="Model"></Column>
                 <Column field="can" header="Can/Cannot"></Column>
 

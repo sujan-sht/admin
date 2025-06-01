@@ -26,13 +26,13 @@ const props = defineProps({
         default: () => ({})
     }
 });
-const isUserEmpty = !props.user || Object.keys(props.user).length === 0;
+const isUserEmpty = !props.user.data || Object.keys(props.user.data).length === 0;
 const initialValues = reactive({
-    name: !isUserEmpty ? props.user.name : '',
-    email: !isUserEmpty ? props.user.email : '',
+    name: !isUserEmpty ? props.user.data.name : '',
+    email: !isUserEmpty ? props.user.data.email : '',
     password: '',
     confirm_password: '',
-    role: !isUserEmpty ? props.user.roles : [],
+    role: !isUserEmpty ? props.user.data.roles : [],
 });
 
 const resolver = ({ values }) => {
@@ -86,14 +86,14 @@ const onFormSubmit = ({ valid, values }) => {
             }
         };
         const request = !isUserEmpty
-            ? router.put(route('users.update', props.user), values, callbacks)
+            ? router.put(route('users.update', props.user.data), values, callbacks)
             : router.post(route('users.store'), values, callbacks);
 
         return request;
     }
 };
 const activePageLabel = !isUserEmpty ? 'Edit' : 'Create';
-const url = !isUserEmpty ? route('users.edit', props.user) : route('users.create');
+const url = !isUserEmpty ? route('users.edit', props.user.data) : route('users.create');
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
     { title: 'Users', href: route('users.index') },

@@ -12,7 +12,9 @@ class PermissionRepository implements PermissionRepositoryInterface
     // Permission Index
     public function indexPermission()
     {
-        $permissions = Permission::where('model','=','all')->get();
+        $permissions = Permission::whereHas('role', function ($query) {
+            $query->where('name', '!=', 'Super Admin');
+        })->get();
         return compact('permissions');
     }
 

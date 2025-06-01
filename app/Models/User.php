@@ -48,6 +48,9 @@ class User extends Authenticatable
         ];
     }
 
+    // eager loading relations
+    protected $with = ['roles'];
+
     // Forget cache on updating or saving and deleting
     public static function boot()
     {

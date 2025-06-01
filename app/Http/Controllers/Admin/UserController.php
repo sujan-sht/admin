@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
 use App\Contracts\Admin\UserRepositoryInterface;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -23,7 +24,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return Inertia::render('admin/User/Index', $this->userRepositoryInterface->indexUser());
+        $users = $this->userRepositoryInterface->indexUser();
+        // dd(UserResource::collection($users)->resolve());
+        return Inertia::render('admin/User/Index', [
+            'users' => UserResource::collection($users)->resolve(),
+        ]);
     }
 
     /**
@@ -62,7 +67,7 @@ class UserController extends Controller
         $user->load('roles');
         return Inertia::render('admin/User/Form', [
             'roles' => $this->userRepositoryInterface->editUser($user),
-            'user' => $user
+            'user' => new UserResource($user)
         ]);
     }
 

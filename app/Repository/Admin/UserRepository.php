@@ -17,8 +17,7 @@ class UserRepository implements UserRepositoryInterface
         $users = Cache::has('users') ? Cache::get('users') : Cache::rememberForever('users', function () {
             return User::with('roles')->get();
         });
-        // dd($users);
-        return compact('users');
+       return $users;
     }
 
     // User Create
