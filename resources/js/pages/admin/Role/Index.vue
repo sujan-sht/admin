@@ -11,9 +11,7 @@ import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
 import ConfirmPopup from 'primevue/confirmpopup';
 import Toast from 'primevue/toast';
-import { ref } from 'vue';
 const toast = useToast();
-const visible = ref(false);
 const confirm = useConfirm();
 const form = useForm({});
 
