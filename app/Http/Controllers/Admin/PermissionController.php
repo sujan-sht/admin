@@ -8,6 +8,7 @@ use App\Models\Admin\Permission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PermissionRequest;
 use App\Contracts\Admin\PermissionRepositoryInterface;
+use App\Http\Resources\PermissionResource;
 
 class PermissionController extends Controller
 {
@@ -23,7 +24,10 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('admin/Permission/Index', $this->permissionRepositoryInterface->indexPermission());
+        $permissions = $this->permissionRepositoryInterface->indexPermission();
+        return Inertia::render('admin/Permission/Index', [
+            'permissions' => PermissionResource::collection($permissions['permissions'])->resolve()
+        ]);
     }
 
     /**

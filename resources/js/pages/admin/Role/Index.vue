@@ -47,8 +47,6 @@ const { roles } = defineProps({
     }
 });
 
-
-
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
     { title: 'Roles', href: route('roles.index') },

@@ -65,7 +65,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Column field="delete" header="Delete"></Column>
                 <Column field="role" header="Role">
                     <template #body="slotProps">
-                        {{ slotProps.data }}
+                        {{ slotProps.data.role_name }}
                     </template>
                 </Column>
                  <Column field="name" header="Name">

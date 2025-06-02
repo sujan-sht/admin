@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contracts\Admin\RoleRepositoryInterface;
 use App\Http\Requests\Admin\RoleRequest;
+use App\Http\Resources\RoleResource;
 use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
@@ -26,7 +27,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return Inertia::render('admin/Role/Index', $this->roleRepositoryInterface->indexRole());
+        $roles = $this->roleRepositoryInterface->indexRole();
+        return Inertia::render('admin/Role/Index', [
+            'roles' => RoleResource::collection($roles['roles'])->resolve()
+        ]);
     }
 
     /**
