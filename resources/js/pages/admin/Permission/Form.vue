@@ -11,6 +11,7 @@ import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
 import Message from 'primevue/message';
 import { Form } from '@primevue/forms';
+import ToggleSwitch from 'primevue/toggleswitch';
 
 const toast = useToast();
 
@@ -31,6 +32,7 @@ const isPermissionEmpty = !props.permission || Object.keys(props.permission).len
 const initialValues = reactive({
     name: !isPermissionEmpty ? props.permission.name : '',
     role_id: !isPermissionEmpty ? props.permission.role_id : '',
+    can : !isPermissionEmpty ? props.permission.can : false
 });
 
 const resolver = ({ values }) => {
@@ -118,7 +120,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </div>
                     <div class="flex gap-1">
                         <label for="description" class="font-medium">Can/Cannot : </label>
-                        <input type="checkbox" name="can">
+                        <ToggleSwitch name="can" />
+
                     </div>
                     <Button type="submit" severity="success" :label="activePageLabel" />
                 </Form>

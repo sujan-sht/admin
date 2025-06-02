@@ -173,6 +173,11 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
             <DataTable :value="props.role.permissions" paginator showGridlines :rows="10"
                 :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem">
+                <Column header="#" style="width: 3rem;">
+                    <template #body="slotProps">
+                        {{ slotProps.index + 1 }}
+                    </template>
+                </Column>
                 <Column field="model" header="Module"></Column>
                 <Column field="name" header="Name">
                     <template #body="slotProps">

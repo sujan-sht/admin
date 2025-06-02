@@ -36,17 +36,7 @@ class PermissionRepository implements PermissionRepositoryInterface
     // Permission Store
     public function storePermission(PermissionRequest $request)
     {
-        $request->validated();
-        Permission::create([
-            'browse' => 1,
-            'read' => 1,
-            'edit' => 1,
-            'add' => 1,
-            'delete' => 1,
-            'role_id' => $request->role_id,
-            'name' => $request->name,
-            'model' => 'all'
-        ]);
+        Permission::create($request->validated());
     }
 
     // Permission Show

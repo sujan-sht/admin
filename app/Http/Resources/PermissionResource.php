@@ -18,7 +18,7 @@ class PermissionResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'model' => $this->model,
-            'can' => $this->can,
+            'can' => $this->can ? 'Yes' : 'No',
             'role_name' => $this->role->name,
             'browse'=>$this->browse ? 'Yes' : 'No',
             'read'=>$this->read ? 'Yes' : 'No',

@@ -74,7 +74,6 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, Permission $permission)
     {
-
         $this->permissionRepositoryInterface->updatePermission($request, $permission);
         return to_route('permissions.index');
     }

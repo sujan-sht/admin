@@ -23,9 +23,16 @@ class PermissionRequest extends FormRequest
     public function rules(): array
     {
         if (Route::is('permissions.makeModulePermission')) {
-            return [
-               'model' => 'required',
-                'role_id' => 'required'
+           return [
+                'browse' => 'sometimes|boolean',
+                'read' => 'sometimes|boolean',
+                'edit' => 'sometimes|boolean',
+                'add' => 'sometimes|boolean',
+                'delete' => 'sometimes|boolean',
+                'name' => 'sometimes|max:255',
+                'can' => 'sometimes|boolean',
+                'role_id' => 'required|numeric',
+                'model' => 'sometimes|max:255',
             ];
         } else {
             $id = $this->permission->id ?? '';
