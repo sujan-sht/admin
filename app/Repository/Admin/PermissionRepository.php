@@ -21,8 +21,16 @@ class PermissionRepository implements PermissionRepositoryInterface
     // Permission Create
     public function createPermission()
     {
-        $roles = Role::all();
-        return compact('roles');
+        $roles = Role::where('name', '!=', 'Super Admin')
+             ->get()
+             ->map(function($role) {
+                 return [
+                     'id' => $role->id,
+                     'name' => $role->name
+                 ];
+             })->values()->toArray();
+
+        return $roles;
     }
 
     // Permission Store

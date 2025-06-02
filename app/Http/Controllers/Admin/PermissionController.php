@@ -46,7 +46,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request)
     {
         $this->permissionRepositoryInterface->storePermission($request);
-        return to_route('permissions.index')->with('message', 'Successfully Added');
+        return to_route('permissions.index');
     }
 
     /**
@@ -62,7 +62,11 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        return view('admin-master::admin.permission.edit', $this->permissionRepositoryInterface->editPermission($permission));
+
+         return Inertia::render('admin/Permission/Form', [
+            'roles' => $this->permissionRepositoryInterface->createPermission(),
+            'permission' => $permission
+        ]);
     }
 
     /**
@@ -72,7 +76,7 @@ class PermissionController extends Controller
     {
 
         $this->permissionRepositoryInterface->updatePermission($request, $permission);
-        return redirect(adminRedirectRoute('permissions'))->with('info', 'Updated Successfully');
+        return to_route('permissions.index');
     }
 
     /**
@@ -81,7 +85,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         $this->permissionRepositoryInterface->destroyPermission($permission);
-        return back()->with('error', 'Deleted Successfully');
+        return back();
     }
 
     public function makeModulePermission(PermissionRequest $request)

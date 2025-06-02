@@ -49,7 +49,7 @@ const onFormSubmit = ({ valid, values }) => {
             onSuccess: () => {
                 toast.add({
                     severity: 'success',
-                    summary: `User ${isRoleEmpty ? 'created' : 'updated'} successfully!`,
+                    summary: `Role ${isRoleEmpty ? 'created' : 'updated'} successfully!`,
                     life: 3000
                 });
             },
