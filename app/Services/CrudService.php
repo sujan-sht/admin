@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Services\Helper\CommandHelper;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 class CrudService extends CommandHelper
 {
@@ -10,10 +12,10 @@ class CrudService extends CommandHelper
     {
         Self::createFolderIfNotExists(app_path('Models/Admin'));
         Self::createFolderIfNotExists(app_path('Http/Controllers/Admin'));
-        Self::createFolderIfNotExists(resource_path('views/admin/' . strtolower($name)));
-        Self::createFolderIfNotExists(app_path("Http/Livewire/Admin/" . $name));
+        // Self::createFolderIfNotExists(resource_path('views/admin/' . strtolower($name)));
+        // Self::createFolderIfNotExists(app_path("Http/Livewire/Admin/" . $name));
         Self::createFolderIfNotExists(app_path("Policies"));
-        Self::createFolderIfNotExists(app_path("Mixins"));
+        // Self::createFolderIfNotExists(app_path("Mixins"));
         Self::createFolderIfNotExists(app_path("Contracts"));
         Self::createFolderIfNotExists(app_path("Repositories"));
 
@@ -23,14 +25,14 @@ class CrudService extends CommandHelper
         Self::makeModel($name, $console);
         Self::makeMigration($name, $console);
         Self::makeController($name, $console);
-        Self::makeViews($name, $console);
+        // Self::makeViews($name, $console);
         Self::makeSeeder($name, $console);
-        Self::makeBladeLayouts($name, $console);
-        Self::addRouteContent($name, $console);
+        // Self::makeBladeLayouts($name, $console);
+        // Self::addRouteContent($name, $console);
         Self::addFileContent($name, $console);
-        Self::makeRappasoftTable($name, $console);
+        // Self::makeRappasoftTable($name, $console);
         Self::makePolicy($name, $console);
-        Self::makeMenu($name, $console);
+        // Self::makeMenu($name, $console);
 
         RepositoryPatternService::repoPattern($name, true);
         $console->info('Repo pattern created for model: ' . $name);

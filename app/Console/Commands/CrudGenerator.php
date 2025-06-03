@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\CrudService;
 use Illuminate\Console\Command;
 
 class CrudGenerator extends Command
