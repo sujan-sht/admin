@@ -47,7 +47,7 @@ class RoleController extends Controller
     public function store(RoleRequest $request)
     {
         $this->roleRepositoryInterface->storeRole($request);
-        return to_route('roles.index')->with('message','Role Successfully Added');
+        return to_route('roles.index');
     }
 
     /**
@@ -74,7 +74,7 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role)
     {
         $this->roleRepositoryInterface->updateRole($request, $role);
-        return to_route('roles.index')->with('info','Role Updated Successfully');
+        return to_route('roles.index');
     }
 
     /**
@@ -83,6 +83,6 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $this->roleRepositoryInterface->destroyRole($role);
-        return to_route('roles.index')->with('success','Role Deleted Successfully');
+        return to_route('roles.index');
     }
 }

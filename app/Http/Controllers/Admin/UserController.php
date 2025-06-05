@@ -25,7 +25,6 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userRepositoryInterface->indexUser();
-        // dd(UserResource::collection($users)->resolve());
         return Inertia::render('admin/User/Index', [
             'users' => UserResource::collection($users)->resolve(),
         ]);
@@ -48,7 +47,7 @@ class UserController extends Controller
     {
         // dd($request->all());
         $this->userRepositoryInterface->storeUser($request);
-        return redirect(route('users.index'))->with('message', 'User Successfully Added');
+        return to_route('users.index');
     }
 
     /**
@@ -77,7 +76,7 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $this->userRepositoryInterface->updateUser($request, $user);
-        return redirect(route('users.index'))->with('info', 'Updated Successfully');
+        return to_route('users.index');
     }
 
     /**
@@ -86,6 +85,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $this->userRepositoryInterface->destroyUser($user);
-        return redirect(route('users.index'))->with('error', 'Deleted Successfully');
+        return to_route('users.index');
     }
 }
