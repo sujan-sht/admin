@@ -12,7 +12,7 @@ class CrudService extends CommandHelper
     {
         Self::createFolderIfNotExists(app_path('Models/Admin'));
         Self::createFolderIfNotExists(app_path('Http/Controllers/Admin'));
-        // Self::createFolderIfNotExists(resource_path('views/admin/' . strtolower($name)));
+        Self::createFolderIfNotExists(resource_path('js/pages/admin/' . ucfirst($name)));
         // Self::createFolderIfNotExists(app_path("Http/Livewire/Admin/" . $name));
         Self::createFolderIfNotExists(app_path("Policies"));
         // Self::createFolderIfNotExists(app_path("Mixins"));
