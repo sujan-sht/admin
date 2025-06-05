@@ -60,9 +60,9 @@ class CrudService extends CommandHelper
 
     protected static function makeViews($name, $console)
     {
-        $views = ['index', 'create', 'edit', 'show'];
+        $views = ['Index', 'Form', 'Show'];
         foreach ($views as $view) {
-            $file = resource_path("views/admin/" . strtolower($name) . "/{$view}.blade.php");
+            $file = resource_path("js/pages/admin/" . ucfirst($view) . "/{$view}.vue");
             file_put_contents($file, self::generateContent(ucfirst($view) . 'Page', $name));
             $console->info(ucfirst($view) . ' Page Created Successfully');
         }
