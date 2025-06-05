@@ -25,7 +25,7 @@ class CrudService extends CommandHelper
         Self::makeModel($name, $console);
         Self::makeMigration($name, $console);
         Self::makeController($name, $console);
-        // Self::makeViews($name, $console);
+        Self::makeViews($name, $console);
         Self::makeSeeder($name, $console);
         // Self::makeBladeLayouts($name, $console);
         // Self::addRouteContent($name, $console);

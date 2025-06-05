@@ -44,7 +44,7 @@ class modelNameController extends Controller
     public function store(modelNameRequest $request)
     {
         $this->lowercaseModelNameRepositoryInterface->storemodelName($request);
-        return to_route('pluralModelName.index')
+        return to_route('pluralModelName.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class modelNameController extends Controller
     public function update(modelNameRequest $request, modelName $lowercaseModelName)
     {
         $this->lowercaseModelNameRepositoryInterface->updatemodelName($request, $lowercaseModelName);
-        return to_route('pluralModelName.index')
+        return to_route('pluralModelName.index');
     }
 
     /**
