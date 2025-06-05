@@ -62,7 +62,7 @@ class CrudService extends CommandHelper
     {
         $views = ['Index', 'Form', 'Show'];
         foreach ($views as $view) {
-            $file = resource_path("js/pages/admin/" . ucfirst($view) . "/{$view}.vue");
+            $file = resource_path("js/pages/admin/" . ucfirst($name) . "/{$view}.vue");
             file_put_contents($file, self::generateContent(ucfirst($view) . 'Page', $name));
             $console->info(ucfirst($view) . ' Page Created Successfully');
         }
