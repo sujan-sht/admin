@@ -1,9 +1,37 @@
-@extends('admin-master::admin.layouts.app')
+<script setup lang="ts">
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import { type BreadcrumbItem } from '@/types';
+import Toast from 'primevue/toast';
+import { useToast } from "primevue/usetoast";
 
-@section('content')
-<x-admin-master-show-page name="lowercaseModelName" route="pluralModelName">
-   <x-slot name="content">
+const toast = useToast();
 
-   </x-slot>
-</x-admin-master-show-page>
-@endsection
+
+const props = defineProps({
+    lowercaseModelName: {
+        type: Object,
+        default: () => ({})
+    }
+});
+
+
+const breadcrumbs: BreadcrumbItem[] = [
+    { title: 'Dashboard', href: route('dashboard') },
+    { title: 'modelName', href: route('pluralModelName.index') },
+    { title: 'Show', href: route('pluralModelName.show,props.lowercaseModelName.id') },
+
+];
+</script>
+
+<template>
+
+    <Head title="modelName" />
+
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <Toast />
+        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+            <h4> This is View Page </h4>
+        </div>
+    </AppLayout>
+</template>

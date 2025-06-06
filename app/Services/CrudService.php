@@ -13,9 +13,7 @@ class CrudService extends CommandHelper
         Self::createFolderIfNotExists(app_path('Models/Admin'));
         Self::createFolderIfNotExists(app_path('Http/Controllers/Admin'));
         Self::createFolderIfNotExists(resource_path('js/pages/admin/' . ucfirst($name)));
-        // Self::createFolderIfNotExists(app_path("Http/Livewire/Admin/" . $name));
         Self::createFolderIfNotExists(app_path("Policies"));
-        // Self::createFolderIfNotExists(app_path("Mixins"));
         Self::createFolderIfNotExists(app_path("Contracts"));
         Self::createFolderIfNotExists(app_path("Repositories"));
 
@@ -27,10 +25,8 @@ class CrudService extends CommandHelper
         Self::makeController($name, $console);
         Self::makeViews($name, $console);
         Self::makeSeeder($name, $console);
-        // Self::makeBladeLayouts($name, $console);
         // Self::addRouteContent($name, $console);
         Self::addFileContent($name, $console);
-        // Self::makeRappasoftTable($name, $console);
         Self::makePolicy($name, $console);
         // Self::makeMenu($name, $console);
 
@@ -75,22 +71,6 @@ class CrudService extends CommandHelper
         $console->info('Seeder file Created Successfully');
     }
 
-    protected static function makeBladeLayouts($name, $console)
-    {
-        Self::createFolderIfNotExists(resource_path("views/admin/layouts/modules/" . strtolower($name)));
-        file_put_contents(resource_path("views/admin/layouts/modules/" . strtolower($name) . "/form.blade.php"), '');
-        $console->info('Edit add file created successfully');
-
-        file_put_contents(resource_path("views/admin/layouts/modules/" . strtolower($name) . "/scripts.blade.php"), '');
-        $console->info('Script file created successfully');
-    }
-
-    protected static function makeRappasoftTable($name, $console)
-    {
-        $file = app_path("Http/Livewire/Admin/" . $name . '/' . $name . 'Table.php');
-        file_put_contents($file, Self::generateContent('RappasoftTable', $name));
-        $console->info('Livewire Table Created Successfully');
-    }
 
     protected static function makePolicy($name, $console)
     {
@@ -113,7 +93,7 @@ class CrudService extends CommandHelper
 
     protected static function addRouteContent($name, $console)
     {
-        $file = app_path("Mixins/AdminRouteMixins.php");
+        $file = base_path("routes/web.php");
         if (!file_exists($file)) {
             file_put_contents($file, Self::getStub('AdminRouteMixins'));
         }
@@ -121,7 +101,7 @@ class CrudService extends CommandHelper
         $lowercased_name = strtolower(Str::plural($name));
         $route = "Route::resource('{$lowercased_name}',\App\Http\Controllers\Admin\\{$name}Controller::class);\n";
 
-        $filePath = app_path('Mixins/AdminRouteMixins.php'); // Specify the // Read the file content
+        $filePath = base_path('routes/web.php'); // Specify the // Read the file content
         $content = file_get_contents($filePath);
 
         // Search for the symbol
@@ -141,14 +121,14 @@ class CrudService extends CommandHelper
 
     protected static function addFileContent($name, $console)
     {
-        $file = app_path("Providers/AdminServiceProvider.php");
+        $file = app_path("Providers/AppServiceProvider.php");
         if (!file_exists($file)) {
-            file_put_contents($file, Self::getStub('AdminServiceProvider'));
+            file_put_contents($file, Self::getStub('AppServiceProvider'));
         }
         // Adding Route Interface Binding
         $repository_interface_binding = '$this->app->bind(\App\Contracts\\' . $name . 'RepositoryInterface::class, \App\Repositories\\' . $name . 'Repository::class);';
 
-        $provider_path = app_path('Providers/AdminServiceProvider.php');
+        $provider_path = app_path('Providers/AppServiceProvider.php');
         Self::putContentToClassFunction($provider_path, 'protected function repos', $repository_interface_binding);
     }
 }
