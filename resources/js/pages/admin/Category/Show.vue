@@ -9,24 +9,24 @@ const toast = useToast();
 
 
 const props = defineProps({
-    lowercaseModelName: {
+    category: {
         type: Object,
         default: () => ({})
     }
 });
 
-
+console.log(props.category);
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
-    { title: 'modelName', href: route('pluralModelName.index') },
-    { title: 'Show', href: route('pluralModelName.show',props.lowercaseModelName.id) },
+    { title: 'Category', href: route('categories.index') },
+    { title: 'Show', href: route('categories.show',props.category.id) },
 
 ];
 </script>
 
 <template>
 
-    <Head title="modelName" />
+    <Head title="Category" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toast />

@@ -16,7 +16,7 @@ class modelNameRepository implements modelNameRepositoryInterface
             return modelName::latest()->get();
         });
 
-        return compact('pluralModelName');
+        return $pluralModelName;
     }
 
     // modelName Create
@@ -34,13 +34,13 @@ class modelNameRepository implements modelNameRepositoryInterface
     // modelName Show
     public function showmodelName(modelName $lowercaseModelName)
     {
-        return compact('lowercaseModelName');
+        return $lowercaseModelName;
     }
 
     // modelName Edit
     public function editmodelName(modelName $lowercaseModelName)
     {
-        return compact('lowercaseModelName');
+        return $lowercaseModelName;
     }
 
     // modelName Update

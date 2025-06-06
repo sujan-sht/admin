@@ -9,6 +9,7 @@ import { BookOpen, Folder, LayoutGrid, Users, UserRoundCheck } from 'lucide-vue-
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
+
     {
         title: 'Dashboard',
         href: '/dashboard',
@@ -28,6 +29,11 @@ const mainNavItems: NavItem[] = [
         title: 'Permission',
         href: route('permissions.index'),
         icon: UserRoundCheck,
+    },
+        {
+        title: 'Category',
+        href: route('categories.index'),
+        icon: LayoutGrid,
     },
 ];
 

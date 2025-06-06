@@ -52,7 +52,9 @@ class modelNameController extends Controller
      */
     public function show(modelName $lowercaseModelName)
     {
-        return Inertia::render('admin/modelName/View', $this->lowercaseModelNameRepositoryInterface->showmodelName($lowercaseModelName));
+        return Inertia::render('admin/modelName/Show', [
+            'lowercaseModelName' => $this->lowercaseModelNameRepositoryInterface->showmodelName($lowercaseModelName)
+        ]);
 
     }
 
@@ -62,7 +64,7 @@ class modelNameController extends Controller
     public function edit(modelName $lowercaseModelName)
     {
         return Inertia::render('admin/modelName/Form', [
-            'modelName' => $this->lowercaseModelNameRepositoryInterface->editmodelName($lowercaseModelName)
+            'lowercaseModelName' => $this->lowercaseModelNameRepositoryInterface->editmodelName($lowercaseModelName)
         ]);
     }
 

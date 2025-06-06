@@ -63,7 +63,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <Link :href="route('pluralModelName.create')" class="flex justify-end">
-            <Button label="Create Role" severity="info" raised />
+            <Button label="Create modelName" severity="info" raised />
             </Link>
             <DataTable :value="pluralModelName" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class);
 
 
+Route::resource('categories',\App\Http\Controllers\Admin\CategoryController::class);
 });
 
 

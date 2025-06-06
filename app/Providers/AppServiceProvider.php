@@ -33,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
-    }
+    $this->app->bind(\App\Contracts\CategoryRepositoryInterface::class, \App\Repositories\CategoryRepository::class);
+}
 }
