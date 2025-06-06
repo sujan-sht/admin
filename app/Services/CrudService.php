@@ -82,7 +82,7 @@ class CrudService extends CommandHelper
     protected static function addMenu($name, $console)
     {
         $lowercased_name = strtolower(Str::plural($name));
-        $file_path = resource_path('js/layouts/admin/AppSidebar.vue'); // Specify the file path
+        $file_path = resource_path('js/components/AppSidebar.vue'); // Specify the file path
         $content = file_get_contents($file_path); // Read the file content
         // Construct the new item
         $new_item = <<<EOD
