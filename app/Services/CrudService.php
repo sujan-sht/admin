@@ -121,10 +121,6 @@ class CrudService extends CommandHelper
 
     protected static function addFileContent($name, $console)
     {
-        $file = app_path("Providers/AppServiceProvider.php");
-        if (!file_exists($file)) {
-            file_put_contents($file, Self::getStub('AppServiceProvider'));
-        }
         // Adding Route Interface Binding
         $repository_interface_binding = '$this->app->bind(\App\Contracts\\' . $name . 'RepositoryInterface::class, \App\Repositories\\' . $name . 'Repository::class);';
 

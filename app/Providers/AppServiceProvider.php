@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    public function repos()
+    protected function repos()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
