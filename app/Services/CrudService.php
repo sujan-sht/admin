@@ -25,10 +25,10 @@ class CrudService extends CommandHelper
         Self::makeController($name, $console);
         Self::makeViews($name, $console);
         Self::makeSeeder($name, $console);
-        // Self::addRouteContent($name, $console);
+        Self::addRouteContent($name, $console);
         Self::addFileContent($name, $console);
         Self::makePolicy($name, $console);
-        // Self::makeMenu($name, $console);
+        Self::addMenu($name, $console);
 
         RepositoryPatternService::repoPattern($name, true);
         $console->info('Repo pattern created for model: ' . $name);
@@ -79,24 +79,36 @@ class CrudService extends CommandHelper
         $console->info('Policy Created Successfully');
     }
 
-    protected static function makeMenu($name, $console)
+    protected static function addMenu($name, $console)
     {
-        Menu::create([
-            'name' => $name,
-            'route' => strtolower(Str::plural($name)),
-            'icon' => null,
-            'position' => 0,
-            'active' => 1,
-        ]);
-        $console->info('Menu Created Successfully');
+        $lowercased_name = strtolower(Str::plural($name));
+        $file_path = resource_path('js/layouts/admin/AppSidebar.vue'); // Specify the file path
+        $content = file_get_contents($file_path); // Read the file content
+        // Construct the new item
+        $new_item = <<<EOD
+    {
+        title: '$name',
+        href: route('$lowercased_name.index'),
+        icon: LayoutGrid,
+    },
+EOD;
+
+        // Use regex to find the mainNavItems array and inject just before the closing ];
+        $pattern = '/const mainNavItems: NavItem\[\] = \[(.*?)\n\];/s';
+        $replacement = "const mainNavItems: NavItem[] = [\n$1\n    $new_item\n];";
+        $new_content = preg_replace($pattern, $replacement, $content);
+
+        if ($new_content !== null) {
+            file_put_contents($file_path, $new_content);
+            $console->info('Menu Added Successfully');
+        } else {
+            $console->error('Failed to add menu item.');
+        }
+        $console->info('Menu Added Successfully');
     }
 
     protected static function addRouteContent($name, $console)
     {
-        $file = base_path("routes/web.php");
-        if (!file_exists($file)) {
-            file_put_contents($file, Self::getStub('AdminRouteMixins'));
-        }
         // Adding Route
         $lowercased_name = strtolower(Str::plural($name));
         $route = "Route::resource('{$lowercased_name}',\App\Http\Controllers\Admin\\{$name}Controller::class);\n";
