@@ -22,10 +22,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('permissions', PermissionController::class);
 
-
-Route::resource('categories',\App\Http\Controllers\Admin\CategoryController::class);
+    Route::put('categories/updateStatus/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'updateStatus'])->name('categories.updateStatus');
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
 });
 
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

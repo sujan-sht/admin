@@ -43,7 +43,7 @@ const onDelete = (event, data) => {
 };
 const toggleButton = (categoryId: number, key: string, value: boolean) => {
     router.put(
-        route('categories.update', categoryId),
+        route('categories.updateStatus', categoryId),
         { [key]: value },
         {
             preserveScroll: true,

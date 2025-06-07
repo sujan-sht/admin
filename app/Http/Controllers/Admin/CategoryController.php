@@ -85,4 +85,14 @@ class CategoryController extends Controller
         return to_route('categories.index');
 
     }
+
+    public function updateStatus(Request $request, Category $category)
+    {
+        $inputData = $request->validate([
+            'active' => 'sometimes|boolean',
+            'featured' => 'sometimes|boolean',
+        ]);
+        $category->update($inputData);
+        return back();
+    }
 }
