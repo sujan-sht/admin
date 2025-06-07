@@ -87,9 +87,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         <ConfirmPopup></ConfirmPopup>
 
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('categories.create')" class="flex justify-end">
-            <Button label="Create Category" severity="info" raised />
-            </Link>
+            <div class="flex justify-end">
+                <Link :href="route('categories.create')">
+                <Button label="Create Category" severity="info" raised />
+                </Link>
+            </div>
+
             <DataTable :value="categories" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column header="#" style="width: 3rem;">
@@ -114,13 +117,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </Column>
                 <Column field="active" header="Active">
                     <template #body="{ data }">
-                        <ToggleSwitch :modelValue="!!data.active" @change="toggleButton(data.id, 'active', $event.target.checked)"/>
+                        <ToggleSwitch :modelValue="!!data.active"
+                            @change="toggleButton(data.id, 'active', $event.target.checked)" />
                     </template>
                 </Column>
 
                 <Column field="featured" header="Featured">
                     <template #body="{ data }">
-                         <ToggleSwitch :modelValue="!!data.featured" @change="toggleButton(data.id, 'featured', $event.target.checked)"/>
+                        <ToggleSwitch :modelValue="!!data.featured"
+                            @change="toggleButton(data.id, 'featured', $event.target.checked)" />
                     </template>
                 </Column>
                 <Column header="Action">

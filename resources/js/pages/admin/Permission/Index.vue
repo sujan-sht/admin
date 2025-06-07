@@ -55,15 +55,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
+
     <Head title="Permission" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toast />
         <ConfirmPopup></ConfirmPopup>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('permissions.create')" class="flex justify-end">
-                <Button label="Create Permission" severity="info"  raised/>
-            </Link>
+            <div class="flex justify-end">
+                <Link :href="route('permissions.create')">
+                <Button label="Create Permission" severity="info" raised />
+                </Link>
+            </div>
+
             <DataTable :value="permissions" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column header="#" style="width: 3rem;">
@@ -81,7 +85,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         {{ slotProps.data.role_name }}
                     </template>
                 </Column>
-                 <Column field="name" header="Name">
+                <Column field="name" header="Name">
                     <template #body="slotProps">
                         {{ slotProps.data.name ?? 'N/A' }}
                     </template>
@@ -96,7 +100,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <Link :href="route('permissions.edit', data)" class="text-green-500">
                             <SquarePen />
                             </Link>
-                            <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined :style="{border : 'none', padding : 0}">
+                            <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined
+                                :style="{ border: 'none', padding: 0 }">
                                 <Trash2 />
                             </Button>
 

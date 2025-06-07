@@ -89,9 +89,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('roles.index')" class="flex justify-end">
-            <Button label="Back" severity="info" raised />
-            </Link>
+            <div class="flex justify-end">
+                <Link :href="route('roles.index')">
+                <Button label="Back" severity="info" raised />
+                </Link>
+            </div>
+
             <Toast />
 
             <div class="flex justify-center">

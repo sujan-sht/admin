@@ -66,9 +66,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     <ConfirmPopup></ConfirmPopup>
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('users.create')" class="flex justify-end">
-            <Button label="Create User" severity="info" raised />
-            </Link>
+            <div class="flex justify-end">
+                <Link :href="route('users.create')">
+                <Button label="Create User" severity="info" raised />
+                </Link>
+            </div>
+
             <DataTable :value="users" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column header="#" style="width: 3rem;">

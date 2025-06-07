@@ -62,9 +62,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         <ConfirmPopup></ConfirmPopup>
 
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('roles.create')" class="flex justify-end">
-            <Button label="Create Role" severity="info" raised />
-            </Link>
+            <div class="flex justify-end">
+                <Link :href="route('roles.create')">
+                <Button label="Create Role" severity="info" raised />
+                </Link>
+            </div>
+
             <DataTable :value="roles" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column header="#" style="width: 3rem;">
@@ -85,7 +88,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <Link :href="route('roles.edit', data)" class="text-green-500 border-solid">
                             <SquarePen />
                             </Link>
-                            <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined :style="{border : 'none', padding : 0}">
+                            <Button @click="(event) => onDelete(event, data)" label="Delete" severity="danger" outlined
+                                :style="{ border: 'none', padding: 0 }">
                                 <Trash2 />
                             </Button>
 

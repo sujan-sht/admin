@@ -17,13 +17,13 @@ const toast = useToast();
 
 
 const props = defineProps({
-    permission:{
+    permission: {
         type: Object,
-        default : () => ({})
+        default: () => ({})
     },
     roles: {
         type: Array,
-        default:() => ([])
+        default: () => ([])
     }
 });
 
@@ -32,7 +32,7 @@ const isPermissionEmpty = !props.permission || Object.keys(props.permission).len
 const initialValues = reactive({
     name: !isPermissionEmpty ? props.permission.name : '',
     role_id: !isPermissionEmpty ? props.permission.role_id : '',
-    can : !isPermissionEmpty ? props.permission.can : false
+    can: !isPermissionEmpty ? props.permission.can : false
 });
 
 const resolver = ({ values }) => {
@@ -97,9 +97,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Link :href="route('permissions.index')" class="flex justify-end">
-            <Button label="Back" severity="info" raised />
-            </Link>
+            <div class="flex justify-end">
+                <Link :href="route('permissions.index')">
+                <Button label="Back" severity="info" raised />
+                </Link>
+            </div>
+
             <Toast />
 
             <div class="flex justify-center">
