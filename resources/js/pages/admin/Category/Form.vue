@@ -26,7 +26,7 @@ const isCategoryEmpty = !props.category.category || Object.keys(props.category.c
 
 const initialValues = reactive({
     name: !isCategoryEmpty ? props.category.category.name : '',
-    description: !isCategoryEmpty ? props.category.category.description : '',
+    excerpt: !isCategoryEmpty ? props.category.category.excerpt : '',
 });
 
 const resolver = ({ values }) => {
@@ -98,21 +98,23 @@ const breadcrumbs: BreadcrumbItem[] = [
 
             <div class="flex justify-center">
                 <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit"
-                    class="flex flex-col gap-4 w-full sm:w-56">
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-[800px]">
                     <div class="flex flex-col gap-1">
                         <label for="name" class="font-medium">Name</label>
-                        <InputText name="name" type="text" placeholder="Enter Role Name" fluid />
+                        <InputText name="name" type="text" placeholder="Enter Category Name" fluid />
                         <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">{{
                             $form.name.error?.message }}</Message>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="description" class="font-medium">Description</label>
-                        <Textarea name="description" rows="5" cols="30" placeholder="Enter Description"
+                        <label for="excerpt" class="font-medium">Excerpt</label>
+                        <Textarea name="excerpt" rows="5" cols="30" placeholder="Enter Excerpt"
                             style="resize: none" />
-                        <Message v-if="$form.description?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.description.error?.message }}</Message>
+                        <Message v-if="$form.excerpt?.invalid" severity="error" size="small" variant="simple">{{
+                            $form.excerpt.error?.message }}</Message>
                     </div>
-                    <Button type="submit" severity="success" :label="activePageLabel" />
+                     <div class="md:col-span-2 flex justify-center">
+                        <Button type="submit" severity="success" :label="activePageLabel" />
+                    </div>
                 </Form>
             </div>
 
