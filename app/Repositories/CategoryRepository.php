@@ -23,13 +23,15 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function createCategory()
     {
         $categories = Category::get()
-             ->map(function($category) {
-                 return [
-                     'id' => $category->id,
-                     'name' => $category->name
-                 ];
-             })->values()->toArray();
-        return $categories;
+            ->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name
+                ];
+            })->values()->toArray();
+        $moduleOptions = getAllUniqueModelNames();
+
+        return ['categories' => $categories, 'models' => $moduleOptions];
     }
 
     // Category Store
@@ -48,13 +50,14 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function editCategory(Category $category)
     {
         $categories = Category::get()
-             ->map(function($category) {
-                 return [
-                     'id' => $category->id,
-                     'name' => $category->name
-                 ];
-             })->values()->toArray();
-        return ['category' => $category, 'categories' => $categories];
+            ->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name
+                ];
+            })->values()->toArray();
+        $moduleOptions = getAllUniqueModelNames();
+        return ['category' => $category, 'categories' => $categories, 'models' => $moduleOptions];
     }
 
     // Category Update

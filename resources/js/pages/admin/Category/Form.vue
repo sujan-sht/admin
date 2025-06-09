@@ -28,6 +28,10 @@ const props = defineProps({
     categories: {
         type: Object,
         default: () => ({}) // Use a function for default object
+    },
+    models:{
+        type: Array,
+        default: () => [] // Use a function for default array
     }
 });
 
@@ -139,7 +143,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Model</label>
-                        <InputText name="model" placeholder="Enter model" />
+                        <Select name="model" :options="props.models" option-label="label" option-value="value"
+                            filter placeholder="Select Model" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Position</label>

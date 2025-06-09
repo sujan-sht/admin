@@ -93,7 +93,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </Link>
             </div>
 
-            <DataTable :value="categories" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+            <DataTable :value="categories" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column header="#" style="width: 3rem;">
                     <template #body="slotProps">
@@ -133,9 +133,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">
-                            <Link :href="route('categories.show', data)" class="text-orange-500 border-solid">
+                            <!-- <Link :href="route('categories.show', data)" class="text-orange-500 border-solid">
                             <Eye />
-                            </Link>
+                            </Link> -->
                             <Link :href="route('categories.edit', data)" class="text-green-500 border-solid">
                             <SquarePen />
                             </Link>

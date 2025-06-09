@@ -68,7 +68,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </Link>
             </div>
 
-            <DataTable :value="roles" paginator showGridlines :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+            <DataTable :value="roles" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                 tableStyle="min-width: 50rem">
                 <Column header="#" style="width: 3rem;">
                     <template #body="slotProps">

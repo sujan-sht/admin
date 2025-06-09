@@ -33,19 +33,7 @@ class RoleRepository implements RoleRepositoryInterface
     {
 
         $role->load('permissions');
-        $modules = getAllModelNames(app_path('Models'));
-        // $system_modules = getAllModelNames(app_path('Models/Admin'));
-        $role_models = $role->permissions->pluck('model')->toArray();
-        // $remaining_modules = array_diff(array_merge($system_modules, $modules), $role_models ?? []);
-        $remaining_modules = array_diff($modules, $role_models ?? []);
-        // dd($remaining_modules);
-        // Transform to array of label/value objects
-        $moduleOptions = collect($remaining_modules)->values()->map(function ($item) {
-            return [
-                'label' => $item,
-                'value' => $item
-            ];
-        });
+        $moduleOptions = getAllUniqueModelNames($role);
         return ['role' => $role, 'modules' => $moduleOptions];
     }
 
