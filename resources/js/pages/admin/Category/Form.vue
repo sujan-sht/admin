@@ -28,7 +28,7 @@ const props = defineProps({
         type: Object,
         default: () => ({}) // Use a function for default object
     },
-    models:{
+    models: {
         type: Array,
         default: () => [] // Use a function for default array
     }
@@ -129,9 +129,17 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Parent Category</label>
-                        <Select name="parent_id" :options="props.categories" option-label="name" option-value="id"
-                            filter placeholder="Select Parent Category" />
+
+                        <div class="flex items-center gap-2">
+                            <Select name="parent_id" :options="props.categories" option-label="name" option-value="id"
+                                filter placeholder="Select Parent Category" class="flex-1" />
+                            <button type="button" class="p-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                                @click="openCreateCategoryModal">
+                                +
+                            </button>
+                        </div>
                     </div>
+
 
                     <div class="flex flex-col gap-1 md:col-span-2">
                         <label class="font-medium">Excerpt</label>
@@ -142,8 +150,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Model</label>
-                        <Select name="model" :options="props.models" option-label="label" option-value="value"
-                            filter placeholder="Select Model" />
+                        <Select name="model" :options="props.models" option-label="label" option-value="value" filter
+                            placeholder="Select Model" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Position</label>
@@ -152,13 +160,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Active</label>
-                        <ToggleSwitch name="active" :modelValue="!!props.category.active"/>
+                        <ToggleSwitch name="active" :modelValue="!!props.category.active" />
 
                     </div>
 
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Featured</label>
-                        <ToggleSwitch name="featured" :modelValue="!!props.category.featured"/>
+                        <ToggleSwitch name="featured" :modelValue="!!props.category.featured" />
                     </div>
 
 
@@ -193,25 +201,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <Button type="submit" severity="success" :label="activePageLabel" />
                     </div>
                 </Form>
-                <!-- <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit"
-                    class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-[800px]">
-                    <div class="flex flex-col gap-1">
-                        <label for="name" class="font-medium">Name</label>
-                        <InputText name="name" type="text" placeholder="Enter Category Name" fluid />
-                        <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.name.error?.message }}</Message>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="excerpt" class="font-medium">Excerpt</label>
-                        <Textarea name="excerpt" rows="5" cols="30" placeholder="Enter Excerpt"
-                            style="resize: none" />
-                        <Message v-if="$form.excerpt?.invalid" severity="error" size="small" variant="simple">{{
-                            $form.excerpt.error?.message }}</Message>
-                    </div>
-                     <div class="md:col-span-2 flex justify-center">
-                        <Button type="submit" severity="success" :label="activePageLabel" />
-                    </div>
-                </Form> -->
             </div>
 
         </div>
