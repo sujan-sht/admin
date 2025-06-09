@@ -9,6 +9,10 @@ import Toast from 'primevue/toast';
 import { reactive } from 'vue';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
+import Checkbox from 'primevue/checkbox';
+import InputNumber from 'primevue/inputnumber';
+import Select from 'primevue/select';
+
 import Message from 'primevue/message';
 
 import { Form } from '@primevue/forms';
@@ -20,13 +24,29 @@ const props = defineProps({
     category: {
         type: Object,
         default: () => ({}) // Use a function for default object
+    },
+    categories: {
+        type: Object,
+        default: () => ({}) // Use a function for default object
     }
 });
-const isCategoryEmpty = !props.category.category || Object.keys(props.category.category).length === 0;
+
+const isCategoryEmpty = !props.category || Object.keys(props.category).length === 0;
 
 const initialValues = reactive({
-    name: !isCategoryEmpty ? props.category.category.name : '',
-    excerpt: !isCategoryEmpty ? props.category.category.excerpt : '',
+    name: props.category?.name || '',
+    slug: props.category?.slug || '',
+    excerpt: props.category?.excerpt || '',
+    parent_id: props.category?.parent_id || null,
+    model: props.category?.model || '',
+    active: props.category?.active ?? true,
+    featured: props.category?.featured ?? false,
+    position: props.category?.position || 1,
+    icon: props.category?.icon || '',
+    color: props.category?.color || '',
+    meta_name: props.category?.meta_name || '',
+    meta_description: props.category?.meta_description || '',
+    meta_keywords: props.category?.meta_keywords || '',
 });
 
 const resolver = ({ values }) => {
@@ -49,7 +69,7 @@ const onFormSubmit = ({ valid, values }) => {
             onSuccess: () => {
                 toast.add({
                     severity: 'success',
-                    summary: `Role ${isCategoryEmpty ? 'created' : 'updated'} successfully!`,
+                    summary: `Category ${isCategoryEmpty ? 'created' : 'updated'} successfully!`,
                     life: 3000
                 });
             },
@@ -63,7 +83,7 @@ const onFormSubmit = ({ valid, values }) => {
             }
         };
         const request = !isCategoryEmpty
-            ? router.put(route('categories.update', props.category.category), values, callbacks)
+            ? router.put(route('categories.update', props.category), values, callbacks)
             : router.post(route('categories.store'), values, callbacks);
 
         return request;
@@ -73,7 +93,7 @@ const onFormSubmit = ({ valid, values }) => {
     }
 };
 const activePageLabel = !isCategoryEmpty ? 'Edit' : 'Create';
-const url = !isCategoryEmpty ? route('categories.edit', props.category.category) : route('categories.create');
+const url = !isCategoryEmpty ? route('categories.edit', props.category) : route('categories.create');
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -100,6 +120,77 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit"
                     class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-[800px]">
                     <div class="flex flex-col gap-1">
+                        <label class="font-medium">Name</label>
+                        <InputText name="name" placeholder="Enter name" />
+                        <Message v-if="$form.name?.invalid" severity="error">{{ $form.name.error.message }}</Message>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Parent Category</label>
+                        <Select name="parent_id" :options="props.categories" option-label="name" option-value="id"
+                            filter placeholder="Select Parent Category" />
+                    </div>
+
+                    <div class="flex flex-col gap-1 md:col-span-2">
+                        <label class="font-medium">Excerpt</label>
+                        <Textarea name="excerpt" rows="4" style="resize: none" placeholder="Short description" />
+                    </div>
+
+
+
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Model</label>
+                        <InputText name="model" placeholder="Enter model" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Position</label>
+                        <InputNumber name="position" />
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Active</label>
+                        <Checkbox name="active" :binary="true" />
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Featured</label>
+                        <Checkbox name="featured" :binary="true" />
+                    </div>
+
+
+
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Icon</label>
+                        <InputText name="icon" placeholder="e.g. fa fa-tag" />
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="font-medium">Color</label>
+                        <InputText name="color" placeholder="e.g. #FF0000" />
+                    </div>
+
+                    <div class="flex flex-col gap-1 md:col-span-2">
+                        <label class="font-medium">Meta Name</label>
+                        <InputText name="meta_name" placeholder="Enter meta title" />
+                    </div>
+
+                    <div class="flex flex-col gap-1 md:col-span-2">
+                        <label class="font-medium">Meta Description</label>
+                        <Textarea name="meta_description" rows="3" placeholder="Enter meta description" />
+                    </div>
+
+                    <div class="flex flex-col gap-1 md:col-span-2">
+                        <label class="font-medium">Meta Keywords</label>
+                        <Textarea name="meta_keywords" rows="3"
+                            placeholder="Enter meta keywords, separated by commas" />
+                    </div>
+
+                    <div class="md:col-span-2 flex justify-center mt-4">
+                        <Button type="submit" severity="success" :label="activePageLabel" />
+                    </div>
+                </Form>
+                <!-- <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-[800px]">
+                    <div class="flex flex-col gap-1">
                         <label for="name" class="font-medium">Name</label>
                         <InputText name="name" type="text" placeholder="Enter Category Name" fluid />
                         <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">{{
@@ -115,7 +206,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                      <div class="md:col-span-2 flex justify-center">
                         <Button type="submit" severity="success" :label="activePageLabel" />
                     </div>
-                </Form>
+                </Form> -->
             </div>
 
         </div>

@@ -35,7 +35,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/Category/Form');
+        $categories = $this->categoryRepositoryInterface->createCategory();
+        return Inertia::render('admin/Category/Form', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -62,8 +65,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $categoryArray=$this->categoryRepositoryInterface->editCategory($category);
         return Inertia::render('admin/Category/Form', [
-            'Category' => $this->categoryRepositoryInterface->editCategory($category)
+            'category' => $categoryArray['category'],
+            'categories' => $categoryArray['categories']
         ]);
     }
 

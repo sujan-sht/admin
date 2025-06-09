@@ -22,7 +22,14 @@ class CategoryRepository implements CategoryRepositoryInterface
     // Category Create
     public function createCategory()
     {
-        //
+        $categories = Category::get()
+             ->map(function($category) {
+                 return [
+                     'id' => $category->id,
+                     'name' => $category->name
+                 ];
+             })->values()->toArray();
+        return $categories;
     }
 
     // Category Store
@@ -40,7 +47,14 @@ class CategoryRepository implements CategoryRepositoryInterface
     // Category Edit
     public function editCategory(Category $category)
     {
-        return $category;
+        $categories = Category::get()
+             ->map(function($category) {
+                 return [
+                     'id' => $category->id,
+                     'name' => $category->name
+                 ];
+             })->values()->toArray();
+        return ['category' => $category, 'categories' => $categories];
     }
 
     // Category Update

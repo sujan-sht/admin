@@ -101,14 +101,14 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </template>
                 </Column>
                 <Column field="name" header="Name"></Column>
-                <Column field="parent_id" header="Parent">
+                <Column field="parent" header="Parent">
                     <template #body="{ data }">
                         <div class="flex items-center gap-2">
-                            <span v-if="data.parent_id">
+                            <span v-if="data.parent">
                                 {{ data.parent.name }}
                             </span>
                             <span v-else>
-                                <i class="pi pi-times text-red-500"></i> -
+                                <i class="pi pi-times text-red-500"></i>
                             </span>
                         </div>
                     </template>
