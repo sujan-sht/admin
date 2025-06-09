@@ -9,10 +9,9 @@ import Toast from 'primevue/toast';
 import { reactive } from 'vue';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
-import Checkbox from 'primevue/checkbox';
 import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
-
+import ToggleSwitch from 'primevue/toggleswitch';
 import Message from 'primevue/message';
 
 import { Form } from '@primevue/forms';
@@ -153,12 +152,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Active</label>
-                        <Checkbox name="active" :binary="true" />
+                        <ToggleSwitch name="active" :modelValue="!!props.category.active"/>
+
                     </div>
 
                     <div class="flex flex-col gap-1">
                         <label class="font-medium">Featured</label>
-                        <Checkbox name="featured" :binary="true" />
+                        <ToggleSwitch name="featured" :modelValue="!!props.category.featured"/>
                     </div>
 
 
