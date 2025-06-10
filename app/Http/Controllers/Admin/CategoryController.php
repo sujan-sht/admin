@@ -95,4 +95,10 @@ class CategoryController extends Controller
         $category->update($inputData);
         return back();
     }
+
+    public function quickCategory(CategoryRequest $request)
+    {
+        $this->categoryRepositoryInterface->storeCategory($request);
+    }
+
 }

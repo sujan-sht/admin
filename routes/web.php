@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('permissions', PermissionController::class);
 
+    Route::post('categories/quick-category', [\App\Http\Controllers\Admin\CategoryController::class, 'quickCategory'])->name('categories.quickCategory');
     Route::put('categories/updateStatus/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'updateStatus'])->name('categories.updateStatus');
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
 });

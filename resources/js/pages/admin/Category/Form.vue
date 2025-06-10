@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
+import QuickCategory from './QuickCategory.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import { type BreadcrumbItem } from '@/types';
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
 import ToggleSwitch from 'primevue/toggleswitch';
 import Message from 'primevue/message';
+import Dialog from 'primevue/dialog';
 
 import { Form } from '@primevue/forms';
 
 const toast = useToast();
-
+const visible = ref(false);
 
 const props = defineProps({
     category: {
@@ -133,10 +135,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <div class="flex items-center gap-2">
                             <Select name="parent_id" :options="props.categories" option-label="name" option-value="id"
                                 filter placeholder="Select Parent Category" class="flex-1" />
-                            <button type="button" class="p-2 rounded bg-blue-500 text-white hover:bg-blue-600"
-                                @click="openCreateCategoryModal">
+
+                            <Button @click="visible = true">
                                 +
-                            </button>
+                            </Button>
+
+                            <Dialog v-model:visible="visible" modal header="Quick Category" :style="{ width: '30rem' }">
+                               <QuickCategory @close="visible = false" :categories="props.categories" />
+                            </Dialog>
+
                         </div>
                     </div>
 
